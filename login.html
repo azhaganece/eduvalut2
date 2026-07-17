@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduVault - Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-page">
+    <button class="back-btn" type="button" aria-label="Go back" onclick="goBack()" tabindex="0">← Back</button>
+    <div class="video-background" id="video-bg">
+        <video autoplay muted loop playsinline id="bg-video">
+            <source src="/video/video.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="video-overlay"></div>
+    <div class="animated-background" id="animated-bg" style="display: none;"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="/CLG%20LOGO.png" alt="College Logo" class="college-logo-img motion-3d-pulse">
+            </div>
+            <div class="department-title">EduVault - Learning Platform</div>
+            <p style="margin-top: 10px; color: rgba(255,255,255,0.7); font-size: 16px;">
+                Your Gateway to Academic Excellence
+            </p>
+        </div>
+
+        <div class="section">
+            <div class="card login-container">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2 style="font-size: 28px; margin-bottom: 10px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        Welcome Back
+                    </h2>
+                    <p style="color: rgba(255,255,255,0.7);">Sign in to access your learning resources</p>
+                </div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">📧 Email Address</label>
+                        <input type="email" id="login-email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">🔒 Password</label>
+                        <input type="password" id="login-password" required placeholder="Enter your password">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-dept">🏢 Select Your Department</label>
+                        <select id="login-dept" required>
+                            <option value="">Choose your department...</option>
+                            <option value="CSE">Computer Science Engineering</option>
+                            <option value="ECE">Electronics & Communication</option>
+                            <option value="MECH">Mechanical Engineering</option>
+                            <option value="IT">Information Technology</option>
+                            <option value="AI">AI & Machine Learning</option>
+                            <option value="EEE">Electrical & Electronics</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-full">Sign In</button>
+                </form>
+
+                <div style="margin-top: 25px; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <p style="text-align: center; color: rgba(255,255,255,0.6); font-size: 14px; margin-bottom: 15px;">
+                        📝 Demo Credentials
+                    </p>
+                    <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #3b82f6;">
+                        <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin-bottom: 5px;">
+                            <strong>Email:</strong> admin@example.com
+                        </p>
+                        <p style="color: rgba(255,255,255,0.8); font-size: 13px;">
+                            <strong>Password:</strong> admin123
+                        </p>
+                        <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin-top:6px;">
+                            <strong>Master (demo) Password:</strong> wyj
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            if (window.history.length > 1) window.history.back();
+            else window.location.href = '/';
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const dept = document.getElementById('login-dept').value;
+            
+            if (!email || !password || !dept) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            // Call login API
+            fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.access_token) {
+                    // Store token and department
+                    localStorage.setItem('token', data.access_token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    localStorage.setItem('department', dept);
+                    
+                    // Redirect to dashboard
+                    window.location.href = `/dashboard?dept=${dept}`;
+                } else {
+                    alert(data.error || 'Login failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Login error: ' + error.message);
+            });
+        });
+
+        // Handle video loading with fallback to animated background
+        const video = document.getElementById('bg-video');
+        const videoBg = document.getElementById('video-bg');
+        const animatedBg = document.getElementById('animated-bg');
+
+        if (video) {
+            video.playbackRate = 0.5;
+            video.play().catch(function(error) {
+                console.log('Video autoplay failed, showing animated background:', error);
+                videoBg.style.display = 'none';
+                animatedBg.style.display = 'block';
+            });
+
+            video.addEventListener('error', function() {
+                console.log('Video loading failed');
+                videoBg.style.display = 'none';
+                animatedBg.style.display = 'block';
+            });
+
+            setTimeout(function() {
+                if (video.paused) {
+                    console.log('Video not playing after 3 seconds, showing animated background');
+                    videoBg.style.display = 'none';
+                    animatedBg.style.display = 'block';
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduVault - Department Landing</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif}
+        
+        body{
+            min-height:100vh;
+            overflow-x:hidden;
+            background:linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color:#ffffff;
+            position:relative;
+        }
+        
+        .video-background {
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            z-index:-1;
+            overflow:hidden;
+        }
+        
+        .video-background video {
+            position:absolute;
+            top:50%;
+            left:50%;
+            min-width:100%;
+            min-height:100%;
+            width:auto;
+            height:auto;
+            transform:translate(-50%, -50%);
+            object-fit:cover;
+            opacity:0.85;
+            filter:blur(0px);
+        }
+        
+        .video-overlay {
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:linear-gradient(135deg, 
+                rgba(26, 26, 46, 0.85) 0%, 
+                rgba(22, 33, 62, 0.8) 50%, 
+                rgba(15, 52, 96, 0.85) 100%);
+            z-index:-1;
+        }
+        
+        .animated-background {
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            z-index:-2;
+            background:linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #1a1a2e);
+            background-size:400% 400%;
+            animation:gradientBG 15s ease infinite;
+            overflow:hidden;
+        }
+        
+        .animated-background::before {
+            content:'';
+            position:absolute;
+            top:-50%;
+            left:-50%;
+            width:200%;
+            height:200%;
+            background:radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            animation:moveBlobs 20s ease-in-out infinite;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes moveBlobs {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -20px) rotate(90deg); }
+            50% { transform: translate(-20px, 20px) rotate(180deg); }
+            75% { transform: translate(-20px, -20px) rotate(270deg); }
+        }
+        
+        .container {
+            max-width:1400px;
+            margin:0 auto;
+            padding:20px;
+            position:relative;
+            z-index:1;
+        }
+        
+        .header {
+            background:linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2));
+            backdrop-filter:blur(20px);
+            padding:25px;
+            text-align:center;
+            border-radius:20px;
+            margin-bottom:30px;
+            border:1px solid rgba(255,255,255,0.1);
+            box-shadow:0 8px 32px rgba(0,0,0,0.3);
+            animation:headerFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes headerFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .logo-container {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin-bottom:20px;
+        }
+        
+        .college-logo {
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            background:linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:48px;
+            font-weight:bold;
+            box-shadow:0 8px 32px rgba(59, 130, 246, 0.4);
+            animation:logoPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); box-shadow:0 8px 32px rgba(59, 130, 246, 0.4); }
+            50% { transform: scale(1.05); box-shadow:0 12px 40px rgba(59, 130, 246, 0.6); }
+        }
+        
+        .department-title {
+            font-size:48px;
+            font-weight:800;
+            background:linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+            animation:gradientShift 3s ease infinite;
+            background-size:200% 200%;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .hero {
+            text-align:center;
+            padding:60px 20px;
+            background:linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.15));
+            backdrop-filter:blur(15px);
+            border-radius:20px;
+            margin-bottom:30px;
+            border:1px solid rgba(255,255,255,0.1);
+            box-shadow:0 8px 32px rgba(0,0,0,0.2);
+            animation:heroSlide 1s ease-out;
+        }
+        
+        @keyframes heroSlide {
+            from { opacity:0; transform: translateY(30px); }
+            to { opacity:1; transform: translateY(0); }
+        }
+        
+        .hero h1 {
+            font-size:56px;
+            margin-bottom:20px;
+            background:linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+            animation:gradientShift 3s ease infinite;
+            background-size:200% 200%;
+        }
+        
+        .hero p {
+            font-size:20px;
+            color:rgba(255,255,255,0.8);
+            margin-bottom:30px;
+        }
+        
+        .stats {
+            display:flex;
+            justify-content:center;
+            gap:50px;
+            margin-top:40px;
+            flex-wrap:wrap;
+        }
+        
+        .stat-item {
+            text-align:center;
+            background:linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2));
+            backdrop-filter:blur(10px);
+            padding:30px;
+            border-radius:15px;
+            border:1px solid rgba(255,255,255,0.1);
+            min-width:150px;
+            transition:transform 0.3s, box-shadow 0.3s;
+            animation:statFloat 3s ease-in-out infinite;
+        }
+        
+        .stat-item:nth-child(1) { animation-delay: 0s; }
+        .stat-item:nth-child(2) { animation-delay: 0.5s; }
+        .stat-item:nth-child(3) { animation-delay: 1s; }
+        
+        @keyframes statFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .stat-item:hover {
+            transform:translateY(-20px) scale(1.05);
+            box-shadow:0 12px 40px rgba(59, 130, 246, 0.3);
+        }
+        
+        .stat-item h3 {
+            font-size:48px;
+            background:linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+        }
+        
+        .stat-item p {
+            color:rgba(255,255,255,0.7);
+            font-size:16px;
+            margin-top:10px;
+        }
+        
+        .section {
+            margin-top:40px;
+            animation:sectionFade 1s ease-out;
+        }
+        
+        @keyframes sectionFade {
+            from { opacity:0; transform: translateY(20px); }
+            to { opacity:1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            font-size:32px;
+            margin-bottom:25px;
+            background:linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+            font-weight:700;
+        }
+        
+        .card {
+            background:linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.6));
+            backdrop-filter:blur(20px);
+            padding:30px;
+            border-radius:20px;
+            margin-bottom:25px;
+            border:1px solid rgba(255,255,255,0.1);
+            box-shadow:0 8px 32px rgba(0,0,0,0.2);
+            transition:transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform:translateY(-10px) rotateX(5deg);
+            box-shadow:0 15px 50px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn {
+            padding:15px 30px;
+            border:none;
+            border-radius:12px;
+            cursor:pointer;
+            transition:all 0.3s;
+            font-weight:600;
+            font-size:16px;
+            background:linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color:white;
+            box-shadow:0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn:hover {
+            transform:translateY(-2px);
+            box-shadow:0 6px 20px rgba(59, 130, 246, 0.6);
+        }
+        
+        .login-container {
+            max-width:450px;
+            margin:0 auto;
+        }
+        
+        .form-group {
+            margin-bottom:20px;
+        }
+        
+        .form-group label {
+            display:block;
+            margin-bottom:8px;
+            color:rgba(255,255,255,0.8);
+            font-weight:500;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width:100%;
+            padding:15px;
+            background:rgba(15, 23, 42, 0.8);
+            border:1px solid rgba(255,255,255,0.2);
+            color:white;
+            border-radius:12px;
+            font-size:16px;
+            transition:border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline:none;
+            border-color:#3b82f6;
+            box-shadow:0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        @media (max-width:768px) {
+            .hero h1 { font-size:36px; }
+            .stats { gap:20px; }
+            .stat-item { min-width:120px; padding:20px; }
+            .stat-item h3 { font-size:32px; }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" type="button" aria-label="Go back" onclick="goBack()" tabindex="0">← Back</button>
+    <div class="video-background" id="video-bg">
+        <video autoplay muted loop playsinline id="bg-video">
+            <source src="/video/video%20(1).mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="video-overlay"></div>
+    <div class="animated-background" id="animated-bg" style="display: none;"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="/CLG%20LOGO.png" alt="College Logo" class="college-logo-img">
+            </div>
+            <div class="department-title" id="dept-title">Department Name</div>
+        </div>
+
+        <div class="hero">
+            <h1 id="hero-title">Welcome to Department</h1>
+            <p id="hero-subtitle">Your journey to excellence starts here</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <h3 id="stat-materials">0</h3>
+                    <p>Materials</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="stat-subjects">0</h3>
+                    <p>Subjects</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="stat-students">0</h3>
+                    <p>Students</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🔐 Login to Your Account</h2>
+            <div class="card login-container">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="login-email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="login-password" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn" style="width:100%">Login</button>
+                </form>
+                <p style="margin-top:20px;text-align:center;color:rgba(255,255,255,0.6)">
+                    Default: admin@example.com / admin123
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            if (window.history.length > 1) window.history.back();
+            else window.location.href = '/';
+        }
+
+        // Department-specific configurations
+        const departmentConfig = {
+            'ECE': {
+                title: 'Electronics & Communication Engineering',
+                heroTitle: 'Welcome to ECE Department',
+                subtitle: 'Innovating the Future of Electronics',
+                primaryColor: '#3b82f6',
+                secondaryColor: '#8b5cf6',
+                theme: 'electronics',
+                videoFile: 'FOR ECE.mp4',
+                credentials: { email: 'ece@example.com', password: 'ece123' }
+            },
+            'MECH': {
+                title: 'Mechanical Engineering',
+                heroTitle: 'Welcome to Mechanical Engineering',
+                subtitle: 'Building the Machines of Tomorrow',
+                primaryColor: '#f59e0b',
+                secondaryColor: '#ef4444',
+                theme: 'mechanical',
+                videoFile: 'mech.mp4',
+                credentials: { email: 'mech@example.com', password: 'mech123' }
+            },
+            'CSE': {
+                title: 'Computer Science Engineering',
+                heroTitle: 'Welcome to CSE Department',
+                subtitle: 'Coding the Future',
+                primaryColor: '#10b981',
+                secondaryColor: '#3b82f6',
+                theme: 'computers',
+                videoFile: 'cse.mp4',
+                credentials: { email: 'cse@example.com', password: 'cse123' }
+            },
+            'IT': {
+                title: 'Information Technology',
+                heroTitle: 'Welcome to IT Department',
+                subtitle: 'Transforming Through Technology',
+                primaryColor: '#06b6d4',
+                secondaryColor: '#3b82f6',
+                theme: 'coding',
+                videoFile: 'DEPT OF IT.mp4',
+                credentials: { email: 'it@example.com', password: 'it123' }
+            },
+            'AI': {
+                title: 'Artificial Intelligence & Machine Learning',
+                heroTitle: 'Welcome to AI/ML Department',
+                subtitle: 'Intelligence for the Future',
+                primaryColor: '#8b5cf6',
+                secondaryColor: '#ec4899',
+                theme: 'aiml',
+                videoFile: 'ai.mp4',
+                credentials: { email: 'ai@example.com', password: 'ai123' }
+            },
+            'EEE': {
+                title: 'Electrical & Electronics Engineering',
+                heroTitle: 'Welcome to EEE Department',
+                subtitle: 'Powering the World',
+                primaryColor: '#fbbf24',
+                secondaryColor: '#f59e0b',
+                theme: 'electrical',
+                videoFile: 'eee.mp4',
+                credentials: { email: 'eee@example.com', password: 'eee123' }
+            }
+        };
+
+        // Get department from URL or default
+        const urlParams = new URLSearchParams(window.location.search);
+        const dept = urlParams.get('dept') || 'CSE';
+        const config = departmentConfig[dept] || departmentConfig['CSE'];
+
+        // Set department-specific video with fallback
+        const videoSource = document.querySelector('#bg-video source');
+        if (videoSource && config.videoFile) {
+            // Try department video first, fallback to video(1).mp4
+            videoSource.src = `/video/${config.videoFile}`;
+        }
+        
+        // Fallback video if department video fails
+        const deptVideo = document.getElementById('bg-video');
+        if (deptVideo) {
+            deptVideo.addEventListener('error', function() {
+                console.log('Department video not found, using fallback');
+                videoSource.src = '/video/video%20(1).mp4';
+                deptVideo.load();
+            });
+        }
+
+        // Update page content based on department
+        document.getElementById('dept-title').textContent = config.title;
+        document.getElementById('hero-title').textContent = config.heroTitle;
+        document.getElementById('hero-subtitle').textContent = config.subtitle;
+
+        // Update login form with department credentials
+        const credentialsDiv = document.querySelector('[style*="border-left: 3px solid"]');
+        if (credentialsDiv) {
+            credentialsDiv.innerHTML = `
+                <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin-bottom: 5px;">
+                    <strong>Email:</strong> ${config.credentials.email}
+                </p>
+                <p style="color: rgba(255,255,255,0.8); font-size: 13px;">
+                    <strong>Password:</strong> ${config.credentials.password}
+                </p>
+                <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin-top:6px;">
+                    <strong>Master Password:</strong> wyj
+                </p>
+            `;
+        }
+
+        // Apply department-specific 3D animations
+        document.documentElement.style.setProperty('--primary-color', config.primaryColor);
+        document.documentElement.style.setProperty('--secondary-color', config.secondaryColor);
+
+        // Load stats
+        document.getElementById('stat-materials').textContent = Math.floor(Math.random() * 50) + 20;
+        document.getElementById('stat-subjects').textContent = Math.floor(Math.random() * 10) + 5;
+        document.getElementById('stat-students').textContent = Math.floor(Math.random() * 200) + 100;
+
+        // Login form handling
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            window.location.href = '/?dept=' + dept;
+        });
+
+        // Handle video loading with fallback to animated background
+        const bgVideo = document.getElementById('bg-video');
+        const videoBg = document.getElementById('video-bg');
+        const animatedBg = document.getElementById('animated-bg');
+
+        if (bgVideo) {
+            bgVideo.playbackRate = 0.5;
+            // Try to play video
+            bgVideo.play().catch(function(error) {
+                console.log('Video autoplay failed, showing animated background:', error);
+                videoBg.style.display = 'none';
+                animatedBg.style.display = 'block';
+            });
+
+            // Fallback if video fails to load
+            bgVideo.addEventListener('error', function() {
+                console.log('Video loading failed');
+                videoBg.style.display = 'none';
+                animatedBg.style.display = 'block';
+            });
+
+            // Fallback after 3 seconds if video still not playing
+            setTimeout(function() {
+                if (bgVideo.paused) {
+                    console.log('Video not playing after 3 seconds, showing animated background');
+                    videoBg.style.display = 'none';
+                    animatedBg.style.display = 'block';
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

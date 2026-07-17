@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduVault - Welcome</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button class="back-btn" type="button" aria-label="Go back" onclick="goBack()" tabindex="0">← Back</button>
+    <div class="video-background" id="video-bg">
+        <video autoplay muted loop playsinline id="bg-video">
+            <source src="/video/video.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="video-overlay"></div>
+    <div class="animated-background" id="animated-bg" style="display: none;"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="/CLG%20LOGO.png" alt="College Logo" class="college-logo-img motion-3d-float">
+            </div>
+            <div style="font-size: 36px; font-weight: 800; background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                EduVault
+            </div>
+            <div style="color: rgba(255,255,255,0.7); margin-top: 10px; font-size: 16px;">
+                Your Premier Academic Learning Platform
+            </div>
+        </div>
+
+        <div class="hero">
+            <h1>Welcome to EduVault</h1>
+            <p>Explore your department with immersive 3D experiences and cutting-edge learning resources</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🎓 Choose Your Department</h2>
+            <div style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                <button class="dept-btn" onclick="showDepartment('CSE')" style="grid-column: span 1;">
+                    <div style="font-size: 36px; margin-bottom: 10px;">💻</div>
+                    <h3>Computer Science</h3>
+                    <p>Coding the Future</p>
+                </button>
+                <button class="dept-btn" onclick="showDepartment('ECE')" style="grid-column: span 1;">
+                    <div style="font-size: 36px; margin-bottom: 10px;">⚡</div>
+                    <h3>Electronics & Communication</h3>
+                    <p>Innovating Electronics</p>
+                </button>
+                <button class="dept-btn" onclick="showDepartment('MECH')" style="grid-column: span 1;">
+                    <div style="font-size: 36px; margin-bottom: 10px;">⚙️</div>
+                    <h3>Mechanical Engineering</h3>
+                    <p>Building Tomorrow</p>
+                </button>
+                <button class="dept-btn" onclick="showDepartment('IT')" style="grid-column: span 1;">
+                    <div style="font-size: 36px; margin-bottom: 10px;">🌐</div>
+                    <h3>Information Technology</h3>
+                    <p>Transforming Tech</p>
+                </button>
+                <button class="dept-btn" onclick="showDepartment('AI')" style="grid-column: span 1;">
+                    <div style="font-size: 36px; margin-bottom: 10px;">🤖</div>
+                    <h3>AI & Machine Learning</h3>
+                    <p>Intelligence for Future</p>
+                </button>
+                <button class="dept-btn" onclick="showDepartment('EEE')" style="grid-column: span 1;">
+                    <div style="font-size: 36px; margin-bottom: 10px;">🔌</div>
+                    <h3>Electrical & Electronics</h3>
+                    <p>Powering the World</p>
+                </button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">✨ Features</h2>
+            <div style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                <div class="card">
+                    <h3>🎨 3D Immersive Design</h3>
+                    <p>Each department has unique 3D motion effects and visual themes tailored to their specialization</p>
+                </div>
+                <div class="card">
+                    <h3>📚 Rich Resources</h3>
+                    <p>Access course materials, notes, assignments, and learning resources all in one place</p>
+                </div>
+                <div class="card">
+                    <h3>🎯 Personalized Dashboard</h3>
+                    <p>Your custom dashboard shows relevant subjects, materials, and announcements for your department</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" style="text-align: center;">
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 20px; font-size: 16px;">
+                Ready to start your learning journey?
+            </p>
+            <button class="btn" style="font-size: 18px; padding: 18px 40px;" onclick="window.location.href='/login'">
+                Get Started →
+            </button>
+        </div>
+    </div>
+
+    <style>
+        .dept-btn {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .dept-btn:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.4);
+            border-color: #3b82f6;
+        }
+
+        .dept-btn h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dept-btn p {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+        }
+    </style>
+
+    <script>
+        function goBack() {
+            if (window.history.length > 1) window.history.back();
+            else window.location.href = '/';
+        }
+
+        function showDepartment(deptCode) {
+            window.location.href = `/landing?dept=${deptCode}`;
+        }
+
+        // Handle video loading with fallback to animated background
+        const video = document.getElementById('bg-video');
+        const videoBg = document.getElementById('video-bg');
+        const animatedBg = document.getElementById('animated-bg');
+
+        if (video) {
+            video.playbackRate = 0.5;
+            video.play().catch(function(error) {
+                console.log('Video autoplay failed, showing animated background:', error);
+                if (videoBg) videoBg.style.display = 'none';
+                if (animatedBg) animatedBg.style.display = 'block';
+            });
+
+            video.addEventListener('error', function() {
+                console.log('Video loading failed');
+                if (videoBg) videoBg.style.display = 'none';
+                if (animatedBg) animatedBg.style.display = 'block';
+            });
+
+            setTimeout(function() {
+                if (video.paused) {
+                    console.log('Video not playing after 3 seconds, showing animated background');
+                    if (videoBg) videoBg.style.display = 'none';
+                    if (animatedBg) animatedBg.style.display = 'block';
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
